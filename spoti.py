@@ -4,7 +4,7 @@ import spotipy.util as util
 import argparse
 
 
-class trackExtractor:
+class TrackExtractor:
     def __init__(self, username, scope, cid, secret, redirect_uri):
         self.username = username
         self.scope = scope
@@ -111,7 +111,7 @@ def main():
     secret = ''
     redirect_uri = 'http://localhost:8888/callback/'
     # artist_to_discover_uri = '0HgZEgGO4KjuGbeAXXl25w'
-    extractor = trackExtractor(username, scope, cid, secret, redirect_uri)
+    extractor = TrackExtractor(username, scope, cid, secret, redirect_uri)
 
 
 if __name__ == "__main__":
