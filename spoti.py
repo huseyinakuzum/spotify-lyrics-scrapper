@@ -5,9 +5,9 @@ import argparse
 
 
 class TrackExtractor:
-    def __init__(self, username, scope, cid, secret, redirect_uri):
+    def __init__(self, username, cid, secret, redirect_uri):
         self.username = username
-        self.scope = scope
+        self.scope = 'user-library-read playlist-read-private playlist-modify-private playlist-modify-public user-top-read user-read-recently-played'
         self.cid = cid
         self.secret = secret
         self.redirect_uri = redirect_uri
@@ -22,6 +22,18 @@ class TrackExtractor:
         else:
             print("Can't get token for", username)
             quit()
+
+    def write_to_file(self, filename, l):
+        print('Filling ' + str(filename))
+        file = open(filename, 'w+')
+        file.write('[\n')
+
+        for t in l:
+            file.write(str(t) + '\n')
+
+        file.write(']\n')
+        print(filename + ' filled with ' +
+              str(len(l)) + ' lines!')
 
     def all_playlists(self):
         playlists = []
@@ -59,19 +71,9 @@ class TrackExtractor:
                         ret_tracks_string.append(song)
                         break
 
-        print('Filling tracks_in_all_playlists.txt!')
-        file = open('tracks_in_all_playlists.txt', 'w+')
-        for t in ret_tracks:
-            file.write(str(t) + '\n')
-        print('tracks_in_all_playlists.txt filled with ' +
-              str(len(ret_tracks)) + ' lines!')
-
-        print('Filling tracks_in_all_playlists_names.txt!')
-        file = open('tracks_in_all_playlists_names.txt', 'w+')
-        for t in ret_tracks_string:
-            file.write(str(t) + '\n')
-        print('tracks_in_all_playlists.txt filled with ' +
-              str(len(ret_tracks_string)) + ' lines!')
+        self.write_to_file('tracks_in_all_playlists.json', ret_tracks)
+        self.write_to_file(
+            'tracks_in_all_playlists_names.txt', ret_tracks_string)
 
         return ret_tracks, ret_tracks_string, song_ids_set
 
@@ -99,19 +101,8 @@ class TrackExtractor:
                         ret_tracks_string.append(song)
                         break
 
-        print('Filling saved_tracks.txt!')
-        file = open('saved_tracks.txt', 'w+')
-        for t in ret_tracks:
-            file.write(str(t) + '\n')
-        print('saved_tracks.txt filled with ' +
-              str(len(ret_tracks)) + ' lines!')
-
-        print('Filling saved_tracks_names.txt!')
-        file = open('saved_tracks_names.txt', 'w+')
-        for t in ret_tracks_string:
-            file.write(str(t) + '\n')
-        print('saved_tracks_names.txt filled with ' +
-              str(len(ret_tracks_string)) + ' lines!')
+        self.write_to_file('saved_tracks.json', ret_tracks)
+        self.write_to_file('saved_tracks_names.txt', ret_tracks_string)
 
         return ret_tracks, ret_tracks_string, song_ids_set
 
@@ -121,7 +112,7 @@ class TrackExtractor:
         ret_tracks_pl, _, song_ids_set_pl = self.tracks_in_all_playlists()
         song_ids_set = song_ids_set_saved_songs.union(song_ids_set_pl)
         all_tracks = []
-        ret_tracks_string = []
+        all_tracks_string = []
 
         ret_tracks = ret_tracks_saved + ret_tracks_pl
 
@@ -132,26 +123,16 @@ class TrackExtractor:
                         all_tracks.append(t)
                         song = (', '.join([a['name']
                                            for a in t['track']['artists']])) + '---' + t['track']['name']
-                        ret_tracks_string.append(song)
+                        all_tracks_string.append(song)
                         break
 
-        print('Filling all_tracks.txt!')
-        file = open('all_tracks.txt', 'w+')
-        for t in ret_tracks:
-            file.write(str(t) + '\n')
-        print('all_tracks.txt filled with ' +
-              str(len(all_tracks)) + ' lines!')
+        self.write_to_file('all_tracks.json', all_tracks)
+        self.write_to_file('all_tracks_names.txt', all_tracks_string)
 
-        print('Filling all_tracks_names.txt!')
-        file = open('all_tracks_names.txt', 'w+')
-        for t in ret_tracks_string:
-            file.write(str(t) + '\n')
-        print('all_tracks_names.txt filled with ' +
-              str(len(all_tracks)) + ' lines!')
-
-        return all_tracks, ret_tracks_string, song_ids_set
+        return all_tracks, all_tracks_string, song_ids_set
 
 
+'''
 def main():
     username = 'shaquzum'
     scope = 'user-library-read playlist-read-private playlist-modify-private playlist-modify-public user-top-read user-read-recently-played'
@@ -162,7 +143,4 @@ def main():
     extractor = TrackExtractor(username, scope, cid, secret, redirect_uri)
     extractor.all_tracks()
     print('Finished extracting tracks!')
-
-
-if __name__ == "__main__":
-    main()
+'''
