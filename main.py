@@ -1,18 +1,13 @@
 import argparse
 from spoti import TrackExtractor
 from scrapper import Scrapper
+import os
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Main script")
     parser.add_argument('-u', '--username', default='shaquzum',
                         help="Username of the user.")
-    parser.add_argument('-c', '--cid', default='eaceec9fa2be44368ac074498a7c7b2b',
-                        help="Client id.")
-    parser.add_argument('-s', '--secret', default='baf792989764463fa4f674eafff8edc1',
-                        help="Secret code after creation of app in spotify developer page.")
-    parser.add_argument("-r", "--redirect_uri", default='http://localhost:8888/callback/',
-                        help="Redirect uri got after creation of app.")
     parser.add_argument("-d", "--content", choices=['all', 'playlists', 'saved_tracks'],
                         default='all', help="Which part of library to be scrapped.")
     args = parser.parse_args()
@@ -21,9 +16,9 @@ def parse_arguments():
 
 def main(args):
     username = args.username
-    cid = args.cid
-    secret = args.secret
-    redirect_uri = args.redirect_uri
+    cid = os.environ['SPOTIPY_CLIENT_ID']
+    secret = os.environ['SPOTIPY_CLIENT_SECRET']
+    redirect_uri = os.environ['SPOTIPY_REDIRECT_URI']
     content = args.content
 
     spoti = TrackExtractor(username, cid, secret, redirect_uri)
