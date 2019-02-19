@@ -33,18 +33,7 @@ def main(args):
         print(
             'Wrong set of filter! Please enter one of [\'all\', \'playlists\',\'saved_tracks\']')
 
-    for s in ret_tracks:
-        for a in s['track']['artists']:
-            lyrics = sc.lyrics_extractor(s['name'], s['track']['name'])
-            if lyrics != '404':
-                f = open((','.join(x['name']
-                                   for x in a) + s['track']['name']), 'w+')
-                f.write(lyrics)
-                f.close()
-            else:
-                print('Lyrics for ' + (','.join(x['name']
-                                                for x in a) + s['track']['name']) + ' could not be found!')
-
+    
 
 if __name__ == "__main__":
     args = parse_arguments()
