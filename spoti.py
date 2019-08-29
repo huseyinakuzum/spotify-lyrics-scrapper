@@ -132,15 +132,3 @@ class TrackExtractor:
         return all_tracks, all_tracks_string, song_ids_set
 
 
-'''
-def main():
-    username = 'shaquzum'
-    scope = 'user-library-read playlist-read-private playlist-modify-private playlist-modify-public user-top-read user-read-recently-played'
-    cid = 'eaceec9fa2be44368ac074498a7c7b2b'
-    secret = 'baf792989764463fa4f674eafff8edc1'
-    redirect_uri = 'http://localhost:8888/callback/'
-    # artist_to_discover_uri = '0HgZEgGO4KjuGbeAXXl25w'
-    extractor = TrackExtractor(username, scope, cid, secret, redirect_uri)
-    extractor.all_tracks()
-    print('Finished extracting tracks!')
-'''
