@@ -1,0 +1,45 @@
+PROXY:
+  URL: https://free-proxy-list.net/
+  OUTPUT_FILENAME: proxies.json
+
+AZLYRICS:
+  URL: https://lyrics.fandom.com/
+
+  GENRES:
+    - fantasy
+
+  OUTPUT_TO: CSV
+
+  CSV:
+    OUTPUT_TYPE: csv
+    FILENAME: books.csv
+    DELIMITER: ";"
+
+  # TODO Define Mongo configurations
+  MONGO:
+    OUTPUT_TYPE: mongo
+
+  # TODO Define Google Drive configurations
+  DRIVE:
+    OUTPUT_TYPE: drive
+
+  # TODO Define Google Cloud Storage configurations
+  GCS:
+    OUTPUT_TYPE: gcs
+
+  DOWNLOADER_MIDDLEWARES:
+    rotating_proxies.middlewares.RotatingProxyMiddleware: 610
+
+  #ITEM_PIPELINES:
+  #  src.pipelines.book_info_writer.BookInfoWriterPipeline: 1
+  #  src.pipelines.book_cover_saver.BookCoverSaverPipeline: 2
+
+  ROBOTSTXT_OBEY: False
+  COOKIES_ENABLED: False
+  RETRY_TIMES: 10
+  DOWNLOAD_TIMEOUT: 20
+  DOWNLOAD_DELAY: 2
+  CONCURRENT_REQUESTS_PER_DOMAIN: 2
+  ROTATING_PROXY_PAGE_RETRY_TIMES: 10
+  ROTATING_PROXY_LOGSTATS_INTERVAL: 20
+  #IMAGES_STORE: .
